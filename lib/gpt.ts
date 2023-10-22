@@ -9,6 +9,21 @@ interface OutputFormat {
   [key: string]: string | string[] | OutputFormat;
 }
 
+/**
+ * Parse the output JSON of GPT-3 to ensure that it adheres to the output format.
+ * Sometimes, the JSON output of GPT-3 is not in the correct format, so we need to parse it to ensure that it is in the correct format.
+ * Feeds the output of GPT-3 back into GPT-3 if it is not in the correct format (has an error message).
+ * @param system_prompt (string): The prompt to be fed into GPT-3. This is the system prompt that is used to generate the output.
+ * @param user_prompt (string): The prompt to be fed into GPT-3. This is the user prompt that is used to generate the output.
+ * @param output_format (OutputFormat): The output format that the GPT-3 output should adhere to.
+ * @param default_category (string): The default category to output if GPT-3 is unable to identify the category.
+ * @param output_value_only (boolean): Whether to output only the values of the output, or the entire output.
+ * @param model (string): The model to use for GPT-3.
+ * @param temperature (number): The temperature to use for GPT-3.
+ * @param num_tries (number): The number of tries to attempt to get the correct output format.
+ * @param verbose (boolean): Whether to output the system prompt, user prompt, and GPT-3 response.
+ * @returns ({question: string, answer: string}[]): The output of GPT-3 in the correct format. (If the output is a list, then it is a list of json
+ */
 export async function strict_output(
   system_prompt: string,
   user_prompt: string | string[],

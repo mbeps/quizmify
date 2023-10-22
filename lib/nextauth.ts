@@ -21,6 +21,10 @@ declare module "next-auth/jwt" {
   }
 }
 
+/**
+ * The options for NextAuth.
+ * It specifies the session strategy, secret, callbacks, adapter, and providers.
+ */
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -28,11 +32,13 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     jwt: async ({ token }) => {
+      // if the user is logged in, then we can get the user id from the database
       const db_user = await prisma.user.findFirst({
         where: {
           email: token?.email,
         },
       });
+      // if the user is logged in, then we can get the user id from the database
       if (db_user) {
         token.id = db_user.id;
       }
@@ -40,6 +46,7 @@ export const authOptions: NextAuthOptions = {
     },
     session: ({ session, token }) => {
       if (token) {
+        // if the user is logged in, then we can get the user id from the database
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
