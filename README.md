@@ -44,7 +44,7 @@ Quizmify employs an advanced set of technologies ensuring optimal user experienc
 
 - **[Axios](https://axios-http.com/)**: Promise-oriented HTTP client for managing HTTP requests.
 
-- **[Clerk Auth](https://clerk.com/)**: Comprehensive and secure user authentication and management system.
+- **[NextAuth](https://next-auth.js.org/)**: Authentication solution for Next.js applications. Provides various authentication strategies and user session management.
 
 - **[Zod](https://github.com/colinhacks/zod)**: TypeScript schema declaration and validation for type-safe REST API development.
 
@@ -61,7 +61,7 @@ Each component in this tech stack is vital in ensuring a frictionless and engagi
 ## 1. **Clone the Project Locally**
 Using your terminal, clone the Quizmify project with the command:
 ```sh
-git clone https://github.com/yourUsername/quizmify.git
+git clone git@github.com:mbeps/quizmify.git
 ```
 
 ## 2. **Install Dependencies**
@@ -73,22 +73,7 @@ yarn install
 ## 3. **Set Up Environment Variables**
 Duplicate the `.env.example` file and rename the copied file to `.env.local`. Populate the `.env.local` with appropriate secrets.
 
-To acquire secrets for `Clerk Auth`:
-
-1. Register on the Clerk website.
-2. Initiate a new application.
-3. In your app dashboard, find the `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` under settings.
-4. Incorporate these keys into your `.env.local` environment variables.
-
-Please configure the URLs for Clerk Auth as:
-```
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
-```
-
-For obtaining `OPENAI_API_KEY`, `DATABASE_URL`, and `NEXT_PUBLIC_APP_URL`, consult the relevant service's documentation or settings.
+For obtaining secrets such as `OPENAI_API_KEY`, `DATABASE_URL`, and `NEXT_PUBLIC_APP_URL`, consult the relevant service's documentation or settings. Additionally, you will need to set up the necessary environment variables for the authentication providers you intend to use with NextAuth.
 
 ## 4. **Running Database (Docker)**
 If you wish to utilize the provided Docker image, execute this step. Alternatively, a cloud service for MySQL can be used. Remember to adjust the connection string in the `.env` file if opting for an alternative.
