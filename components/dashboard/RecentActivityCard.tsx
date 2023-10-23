@@ -12,9 +12,12 @@ import { redirect } from "next/navigation";
 import HistoryComponent from "../HistoryComponent";
 import { prisma } from "@/lib/db";
 
-type Props = {};
-
-const RecentActivityCard = async (props: Props) => {
+/**
+ * Shows a list of recent quizzes taken by the user.
+ * Clicking on the card title will redirect the user to the history page.
+ * @returns (JSX.Element): Recent Activity Card
+ */
+const RecentActivityCard = async () => {
   const session = await getAuthSession();
   if (!session?.user) {
     return redirect("/");

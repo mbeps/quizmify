@@ -4,9 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import { History } from "lucide-react";
 
-type Props = {};
-
-const HistoryCard = (props: Props) => {
+/**
+ * History card component used for allowing users to view their past quiz attempts.
+ * @returns (JSX.Element): History card component
+ */
+const HistoryCard = () => {
   const router = useRouter();
   return (
     <Card

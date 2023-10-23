@@ -17,11 +17,22 @@ type Props = {
   };
 };
 
+/**
+ * Page which displays the statistics of the quiz.
+ * @param param0 (Props): Game ID (string)
+ * @returns (JSX.Element): Statistics page (summary, results, accuracy, time taken, questions list)
+ */
 const Statistics = async ({ params: { gameId } }: Props) => {
   const session = await getAuthSession();
+
+  // redirect to home page if user is not logged in
   if (!session?.user) {
     return redirect("/");
   }
+
+  /**
+   * Fetch the game from the database.
+   */
   const game = await prisma.game.findUnique({
     where: { id: gameId },
     include: { questions: true },
@@ -33,12 +44,15 @@ const Statistics = async ({ params: { gameId } }: Props) => {
   let accuracy: number = 0;
 
   if (game.gameType === "mcq") {
+    // calculate accuracy for multiple choice quiz
     let totalCorrect = game.questions.reduce((acc, question) => {
       if (question.isCorrect) {
         return acc + 1;
       }
       return acc;
     }, 0);
+
+    // average of how similar the answer is compared to the correct answer
     accuracy = (totalCorrect / game.questions.length) * 100;
   } else if (game.gameType === "open_ended") {
     let totalPercentage = game.questions.reduce((acc, question) => {

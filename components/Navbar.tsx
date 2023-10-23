@@ -6,6 +6,14 @@ import { ThemeToggle } from "./ThemeToggle";
 import { getAuthSession } from "@/lib/nextauth";
 import SignInButton from "./SignInButton";
 
+/**
+ * Navigation bar at the top of the page.
+ * Allows the the user to:
+ *  - Navigate to the home page
+ *  - Sign in and toggle between light and dark mode
+ *  - View their profile picture, name and email
+ * @returns (JSX.Element): Navbar (navigation bar at the top of the page)
+ */
 const Navbar = async () => {
   const session = await getAuthSession();
   return (

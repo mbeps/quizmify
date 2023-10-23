@@ -10,6 +10,11 @@ import {
 } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
+/**
+ * Providers that the app has access to.
+ * @param {children}: rest of the website
+ * @returns (JSX.Element): Providers (SessionProvider, NextThemesProvider, QueryClientProvider)
+ */
 const Providers = ({ children }: ThemeProviderProps) => {
   return (
     <QueryClientProvider client={queryClient}>

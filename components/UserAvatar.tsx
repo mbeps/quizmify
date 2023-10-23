@@ -8,6 +8,11 @@ interface Props extends AvatarProps {
   user: Pick<User, "name" | "image">;
 }
 
+/**
+ * Avatar displaying the user's profile picture.
+ * @param user (User): user that is logged in
+ * @returns (JSX.Element): User Avatar (displays the user's profile picture)
+ */
 const UserAvatar = ({ user, ...props }: Props) => {
   return (
     <Avatar {...props}>

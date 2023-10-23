@@ -1,6 +1,6 @@
 "use client";
 import { Game, Question } from "@prisma/client";
-import React from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Card,
   CardDescription,
@@ -23,27 +23,45 @@ type Props = {
   game: Game & { questions: Pick<Question, "id" | "options" | "question">[] };
 };
 
+/**
+ * Multiple Choice Question page.
+ * Displays the question and options, and allows the user to select an option.
+ * The user can also press the "Enter" key to go to the next question.
+ * The user can also press the "1", "2", "3", "4" keys to select an option.
+ */
 const MCQ = ({ game }: Props) => {
-  const [questionIndex, setQuestionIndex] = React.useState(0);
-  const [hasEnded, setHasEnded] = React.useState(false);
-  const [stats, setStats] = React.useState({
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [hasEnded, setHasEnded] = useState(false);
+  const [stats, setStats] = useState({
     correct_answers: 0,
     wrong_answers: 0,
   });
-  const [selectedChoice, setSelectedChoice] = React.useState<number>(0);
-  const [now, setNow] = React.useState(new Date());
+  const [selectedChoice, setSelectedChoice] = useState<number>(0);
+  const [now, setNow] = useState(new Date());
+  const { toast } = useToast();
 
-  const currentQuestion = React.useMemo(() => {
+  /**
+   * The current question.
+   */
+  const currentQuestion = useMemo(() => {
     return game.questions[questionIndex];
   }, [questionIndex, game.questions]);
 
-  const options = React.useMemo(() => {
-    if (!currentQuestion) return [];
-    if (!currentQuestion.options) return [];
-    return JSON.parse(currentQuestion.options as string) as string[];
+  /**
+   * The options for the current question.
+   */
+  const options = useMemo(() => {
+    if (!currentQuestion) return []; // no questions
+    if (!currentQuestion.options) return []; // no options
+    return JSON.parse(currentQuestion.options as string) as string[]; // generate questions
   }, [currentQuestion]);
 
-  const { toast } = useToast();
+  /**
+   * Mutation to check the answer.
+   * If the answer is correct, the user is notified.
+   * If the answer is incorrect, the user is notified.
+   * If the answer is the last question, the game is ended.
+   */
   const { mutate: checkAnswer, isLoading: isChecking } = useMutation({
     mutationFn: async () => {
       const payload: z.infer<typeof checkAnswerSchema> = {
@@ -55,6 +73,10 @@ const MCQ = ({ game }: Props) => {
     },
   });
 
+  /**
+   * Mutation to end the game.
+   * The game is ended when the user has answered all the questions.
+   */
   const { mutate: endGame } = useMutation({
     mutationFn: async () => {
       const payload: z.infer<typeof endGameSchema> = {
@@ -65,7 +87,13 @@ const MCQ = ({ game }: Props) => {
     },
   });
 
-  React.useEffect(() => {
+  /**
+   * Update the timer every second.
+   * If the game has ended, the timer is not updated.
+   * The timer is updated by calling `setNow`.
+   * The timer is formatted using `formatTimeDelta`.
+   */
+  useEffect(() => {
     const interval = setInterval(() => {
       if (!hasEnded) {
         setNow(new Date());
@@ -74,10 +102,15 @@ const MCQ = ({ game }: Props) => {
     return () => clearInterval(interval);
   }, [hasEnded]);
 
-  const handleNext = React.useCallback(() => {
+  /**
+   * Handle the next question.
+   * If the answer is correct, the user is notified.
+   */
+  const handleNext = useCallback(() => {
     checkAnswer(undefined, {
       onSuccess: ({ isCorrect }) => {
         if (isCorrect) {
+          // correct answer
           setStats((stats) => ({
             ...stats,
             correct_answers: stats.correct_answers + 1,
@@ -88,6 +121,7 @@ const MCQ = ({ game }: Props) => {
             variant: "success",
           });
         } else {
+          // wrong answer
           setStats((stats) => ({
             ...stats,
             wrong_answers: stats.wrong_answers + 1,
@@ -99,6 +133,7 @@ const MCQ = ({ game }: Props) => {
           });
         }
         if (questionIndex === game.questions.length - 1) {
+          // last question
           endGame();
           setHasEnded(true);
           return;
@@ -108,7 +143,13 @@ const MCQ = ({ game }: Props) => {
     });
   }, [checkAnswer, questionIndex, game.questions.length, toast, endGame]);
 
-  React.useEffect(() => {
+  /**
+   * Handle keyboard events.
+   * If the user presses the "1", "2", "3", "4" keys, the corresponding option is selected.
+   * If the user presses the "Enter" key, the next question is displayed.
+   * The event listener is removed when the component is unmounted.
+   */
+  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const key = event.key;
 
@@ -132,6 +173,7 @@ const MCQ = ({ game }: Props) => {
     };
   }, [handleNext]);
 
+  // show statistics if game has ended
   if (hasEnded) {
     return (
       <div className="absolute flex flex-col justify-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">

@@ -15,6 +15,11 @@ type Props = {
   questions: Question[];
 };
 
+/**
+ * Table showing the questions, correct answers and user answers.
+ * @param param0 ({ questions }: Props): questions is the list of questions
+ * @returns (JSX.Element): Questions List Table
+ */
 const QuestionsList = ({ questions }: Props) => {
   return (
     <Table className="mt-4">

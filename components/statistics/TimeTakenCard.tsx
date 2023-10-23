@@ -9,6 +9,11 @@ type Props = {
   timeStarted: Date;
 };
 
+/**
+ * Timer showing how long the user took to complete the quiz.
+ * Uses the start time from the database and the current time to calculate the time taken.
+ * @param param0 ({ timeEnded, timeStarted }: Props): timeEnded is the time when the user finished the quiz, timeStarted is the time when the user started the quiz
+ */
 const TimeTakenCard = ({ timeEnded, timeStarted }: Props) => {
   return (
     <Card className="md:col-span-4">
