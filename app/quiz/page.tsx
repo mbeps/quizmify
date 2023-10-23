@@ -15,8 +15,15 @@ interface Props {
   };
 }
 
+/**
+ * Page where the user enters the quiz topic and creates the quiz.
+ * @param searchParams (Props): Search parameters (topic)
+ * @returns (JSX.Element): Quiz page (quiz creation form)
+ */
 const Quiz = async ({ searchParams }: Props) => {
   const session = await getAuthSession();
+
+  // redirect to home page if user is not logged in
   if (!session?.user) {
     redirect("/");
   }

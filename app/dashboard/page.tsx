@@ -1,4 +1,3 @@
-import DetailsDialog from "@/components/DetailsDialog";
 import HistoryCard from "@/components/dashboard/HistoryCard";
 import HotTopicsCard from "@/components/dashboard/HotTopicsCard";
 import QuizMeCard from "@/components/dashboard/QuizMeCard";
@@ -7,15 +6,19 @@ import { getAuthSession } from "@/lib/nextauth";
 import { redirect } from "next/navigation";
 import React from "react";
 
-type Props = {};
-
 export const metadata = {
   title: "Dashboard | Quizmify",
   description: "Quiz yourself on anything!",
 };
 
-const Dashboard = async (props: Props) => {
+/**
+ * Dashboard page displaying the user's recent activity, hot topics, and quiz me
+ * @returns (JSX.Element): Dashboard page
+ */
+const Dashboard = async () => {
   const session = await getAuthSession();
+
+  // Redirect to home page if user is not logged in
   if (!session?.user) {
     redirect("/");
   }

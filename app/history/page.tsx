@@ -7,10 +7,15 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { LucideLayoutDashboard } from "lucide-react";
 
-type Props = {};
-
-const History = async (props: Props) => {
+/**
+ * History page displays the history of quizzes taken by the user.
+ * User can click on the quiz to view the results.
+ * @returns (JSX.Element): History page
+ */
+const History = async () => {
   const session = await getAuthSession();
+
+  // redirect to home page if user is not logged in
   if (!session?.user) {
     return redirect("/");
   }

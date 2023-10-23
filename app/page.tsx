@@ -9,6 +9,12 @@ import {
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
+/**
+ * This is the home page of the application.
+ * Is is accessible before the user logs in.
+ * This allows the user to log in using Google OAuth.
+ * @returns (JSX.Element): Home page
+ */
 export default async function Home() {
   const session = await getServerSession();
   if (session?.user) {
@@ -20,8 +26,8 @@ export default async function Home() {
         <CardHeader>
           <CardTitle>Welcome to Quizmify 🔥!</CardTitle>
           <CardDescription>
-            Quizmify is a platform for creating quizzes using AI!. Get started
-            by loggin in below!
+            Quizmify is a platform for creating quizzes using AI! Get started by
+            logging in below!
           </CardDescription>
         </CardHeader>
         <CardContent>

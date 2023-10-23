@@ -13,6 +13,17 @@ export const metadata: Metadata = {
   description: "Quiz yourself on anything!",
 };
 
+/**
+ * Dictates the layout of the app.
+ * Also provides the context for the app.
+ * Providers so that the app has access to:
+ * - NextAuth
+ * - Prisma
+ * - Theme provider
+ * - Query client provider
+ * @param children (React.ReactNode): rest of the app
+ * @returns (JSX.Element): Root layout (navbar, rest of the app)
+ */
 export default function RootLayout({
   children,
 }: {
