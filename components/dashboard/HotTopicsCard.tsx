@@ -9,9 +9,12 @@ import {
 import WordCloud from "../WordCloud";
 import { prisma } from "@/lib/db";
 
-type Props = {};
-
-const HotTopicsCard = async (props: Props) => {
+/**
+ * Shows the hot topics in the database.
+ * Shows a word cloud of topics and their frequency (size of the word).
+ * @returns (JSX.Element): Hot Topics card component
+ */
+const HotTopicsCard = async () => {
   const topics = await prisma.topic_count.findMany({});
   const formattedTopics = topics.map((topic) => {
     return {

@@ -1,9 +1,13 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Progress } from "./ui/progress";
 import Image from "next/image";
 
 type Props = { finished: boolean };
 
+/**
+ * Texts to display while loading.
+ * A random text is chosen every 2 seconds.
+ */
 const loadingTexts = [
   "Generating questions...",
   "Unleashing the power of curiosity...",
@@ -12,10 +16,19 @@ const loadingTexts = [
   "Igniting the flame of wonder and exploration...",
 ];
 
+/**
+ * Loading screen while the questions are being generated.
+ * @param finished (boolean): Whether the game has ended.
+ * @returns (JSX.Element): The loading screen.
+ */
 const LoadingQuestions = ({ finished }: Props) => {
-  const [progress, setProgress] = React.useState(10);
-  const [loadingText, setLoadingText] = React.useState(loadingTexts[0]);
-  React.useEffect(() => {
+  const [progress, setProgress] = useState(10);
+  const [loadingText, setLoadingText] = useState(loadingTexts[0]);
+
+  /**
+   * Choose a random loading text every 2 seconds.
+   */
+  useEffect(() => {
     const interval = setInterval(() => {
       let randomIndex = Math.floor(Math.random() * loadingTexts.length);
       setLoadingText(loadingTexts[randomIndex]);
@@ -23,7 +36,15 @@ const LoadingQuestions = ({ finished }: Props) => {
     return () => clearInterval(interval);
   }, []);
 
-  React.useEffect(() => {
+  /**
+   * Update the progress bar every 100ms.
+   * If the game has ended, the progress bar is not updated.
+   * The progress bar is updated by calling `setProgress`.
+   * The progress bar is capped at 100.
+   * The progress bar is incremented by a random value between 0 and 2.
+   * The progress bar is incremented by 0.5 if the random value is less than 0.1.
+   */
+  useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (finished) return 100;

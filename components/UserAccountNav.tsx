@@ -18,6 +18,10 @@ type Props = {
   user: Pick<User, "name" | "image" | "email">;
 };
 
+/**
+ * User Account Navigation displaying the user's profile picture, name and email.
+ * User can also sign out from this component.
+ */
 const UserAccountNav = ({ user }: Props) => {
   return (
     <DropdownMenu>

@@ -1,15 +1,23 @@
 import { prisma } from "@/lib/db";
 import { Clock, CopyCheck, Edit2 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
-import MCQCounter from "./MCQCounter";
 
 type Props = {
   limit: number;
   userId: string;
 };
 
+/**
+ * History component showing a list of past quizzes.
+ * @param limit (number): The number of games to display.
+ * @param userId (string): The user ID.
+ * @returns (JSX.Element): The history component (list of games).
+ */
 const HistoryComponent = async ({ limit, userId }: Props) => {
+  /**
+   * Fetch the games from the database that belong to the current user.
+   * The games are sorted by the time they were started.
+   */
   const games = await prisma.game.findMany({
     take: limit,
     where: {

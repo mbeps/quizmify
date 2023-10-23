@@ -8,6 +8,12 @@ type Props = {
   wrong_answers: number;
 };
 
+/**
+ * Card showing the number of correct and wrong answers for multiple choice questions.
+ * @param correct_answers (number): number of correct answers
+ * @param wrong_answers (number): number of wrong answers (number of correct answers / number of questions
+ * @returns (JSX.Element): MCQ Counter Card (shows the number of correct and wrong answers)
+ */
 const MCQCounter = ({ correct_answers, wrong_answers }: Props) => {
   return (
     <Card className="flex flex-row items-center justify-center p-2">

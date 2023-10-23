@@ -36,11 +36,26 @@ type Props = {
 
 type Input = z.infer<typeof quizCreationSchema>;
 
+/**
+ * Quiz Creation Form allowing the user to choose a topic, number of questions and type of quiz.
+ * User enters:
+ * - Topic for the quiz
+ * - Number of questions for the quiz
+ * - Type of quiz (multiple choice or open ended)
+ * @param param0 ({ topic: topicParam }: Props}): topicParam is the topic that the user has entered
+ * @returns (JSX.Element): Quiz Creation Form (MCQ or Open Ended)
+ */
 const QuizCreation = ({ topic: topicParam }: Props) => {
   const router = useRouter();
   const [showLoader, setShowLoader] = React.useState(false);
   const [finishedLoading, setFinishedLoading] = React.useState(false);
   const { toast } = useToast();
+
+  /**
+   * Mutation to get questions from the backend.
+   * @returns (JSX.Element): Quiz Creation Form (MCQ or Open Ended)
+   * @param amount: Number of questions
+   */
   const { mutate: getQuestions, isLoading } = useMutation({
     mutationFn: async ({ amount, topic, type }: Input) => {
       const response = await axios.post("/api/game", { amount, topic, type });
@@ -48,6 +63,10 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
     },
   });
 
+  /**
+   * Form to get the user's input for the quiz creation.
+   * Schema validation is done using zod to ensure that the user has entered a topic and number of questions.
+   */
   const form = useForm<Input>({
     resolver: zodResolver(quizCreationSchema),
     defaultValues: {
@@ -57,6 +76,14 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
     },
   });
 
+  /**
+   * Submit the user's input for the quiz creation.
+   * Sends a POST request to the backend to get the questions.
+   * While the request is being processed, a loading screen is shown.
+   * If the request is successful, the user is redirected to the quiz page.
+   * If the request fails, an error message is shown.
+   * @param data (Input): User's input for the quiz creation
+   */
   const onSubmit = async (data: Input) => {
     setShowLoader(true);
     getQuestions(data, {
@@ -76,8 +103,10 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
         setFinishedLoading(true);
         setTimeout(() => {
           if (form.getValues("type") === "mcq") {
+            // if type is multiple choice, redirect to /play/mcq/:gameId
             router.push(`/play/mcq/${gameId}`);
           } else if (form.getValues("type") === "open_ended") {
+            // if type is open ended, redirect to /play/open-ended/:gameId
             router.push(`/play/open-ended/${gameId}`);
           }
         }, 2000);

@@ -6,6 +6,11 @@ type Props = {
   percentage: number;
 };
 
+/**
+ * Displays the percentage of correct answers for open ended questions.
+ * @param percentage (number): percentage of correct answers (number of correct answers / number of questions)
+ * @returns (JSX.Element): Open Ended Percentage Card (shows the percentage of correct answers
+ */
 const OpenEndedPercentage = ({ percentage }: Props) => {
   return (
     <Card className="flex flex-row items-center p-2">

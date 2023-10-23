@@ -4,6 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Award, Trophy } from "lucide-react";
 type Props = { accuracy: number };
 
+/**
+ * Card showing the results of the quiz.
+ * @param param0 ({ accuracy }: Props): accuracy is the accuracy of the user (number of correct answers / number of questions)
+ * @returns (JSX.Element): Results Card (shows the accuracy of the user)
+ */
 const ResultsCard = ({ accuracy }: Props) => {
   return (
     <Card className="md:col-span-7">

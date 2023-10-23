@@ -4,9 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import { BrainCircuit } from "lucide-react";
 
-type Props = {};
-
-const QuizMeCard = (props: Props) => {
+/**
+ * Quiz me card component allows the user to start a quiz.
+ * @returns (JSX.Element): Quiz me card component
+ */
+const QuizMeCard = () => {
   const router = useRouter();
   return (
     <Card
