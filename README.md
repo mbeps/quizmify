@@ -1,3 +1,6 @@
+
+![screenshotr_2023-10-23T20-39-51](https://github.com/mbeps/quizmify/assets/58662575/80104313-9961-4e50-b086-67e3ffdedf65)
+
 Welcome to Quizmify! An intuitive platform that leverages the remarkable capabilities of OpenAI's GPT-3.5 for dynamic quiz generation. Users can test their knowledge across a vast range of topics, choosing between multiple-choice questions or fill-in-the-gap style challenges. With immediate feedback on answers and score tracking, users are not only testing but also enhancing their understanding. 
 
 # **Requirements**
